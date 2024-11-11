@@ -1,0 +1,19 @@
+[package]
+name = "hiro-lab-cu-boulder"
+version = "0.1.0"
+entrypoint = "src/lib.typ"
+authors = ["Naren Dasan <https://narendasan.com/>"]
+license = "NCSA"
+description = "Touying theme for presentations made by the HIRO Lab at the University of Colorado Boulder."
+keywords = ["touying", "boulder", "colorado", "hiro", "presentation"]
+# homepage = ""
+repository = "https://github.com/naren/hiro-lab-cu-boulder"
+categories = ["presentation"]
+disciplines = []
+compiler = "0.12.0"
+exclude = []
+
+[template]
+path = "template"
+entrypoint = "template.typ"
+thumbnail = "assets/thumbnail.webp"
