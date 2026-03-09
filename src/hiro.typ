@@ -27,7 +27,7 @@
       inset: 0mm,
       outset: 0mm,
       stroke: none,
-      text(size: 0.5em, fill: self.colors.black, body),
+      text(size: 0.5em, fill: self.colors.hiro.at("text-main"), body),
     )
 
     set align(center + horizon)
@@ -40,45 +40,56 @@
 
     let lab-logo = image("../assets/hiro-square.svg", width: 30%)
     let pos = context utils.slide-counter.display() + " / " + utils.last-slide-number
-    block(
-      width: 100%,
-      height: 100%,
-      fill: self.colors.hiro.gray,
-      stroke: (self.colors.black),
-      {
-        set text(size: 1.5em)
-        grid(
-          columns: (10%, 80%, 10%),
-          rows: 1.0em,
-          cell(box(lab-logo, height: 100%, fill: none)),
-          cell(
-            box(
-              text(
-                self.info.title,
-                fill: self.colors.white,
-                weight: "light",
-              ) + if has-title-and-subtitle and settings.FOOTER-SHOW-SUBTITLE {
-                settings.FOOTER-UPPER-SEP
-              } else {
-                ""
-              } + if settings.FOOTER-SHOW-SUBTITLE {
-                self.info.subtitle
-              },
-              width: 100%,
-            ),
-          ),
-          cell(
-            box(
-              text(
-                pos,
-                fill: self.colors.white,
-                weight: "light",
+
+    // Footer with dark background and gradient accent line at top
+    stack(
+      dir: ttb,
+      // Gradient accent line (embodied green → social pink)
+      rect(
+        width: 100%,
+        height: 3pt,
+        fill: gradient.linear(self.colors.hiro.embodied, self.colors.hiro.social),
+      ),
+      // Main footer content
+      block(
+        width: 100%,
+        height: 100% - 3pt,
+        fill: self.colors.hiro.gray,
+        {
+          set text(size: 1.5em)
+          grid(
+            columns: (10%, 80%, 10%),
+            rows: 1.0em,
+            cell(box(lab-logo, height: 100%, fill: none)),
+            cell(
+              box(
+                text(
+                  self.info.title,
+                  fill: self.colors.hiro.at("text-main"),
+                  weight: "light",
+                ) + if has-title-and-subtitle and settings.FOOTER-SHOW-SUBTITLE {
+                  settings.FOOTER-UPPER-SEP
+                } else {
+                  ""
+                } + if settings.FOOTER-SHOW-SUBTITLE {
+                  self.info.subtitle
+                },
+                width: 100%,
               ),
-              width: 100%,
             ),
-          ),
-        )
-      },
+            cell(
+              box(
+                text(
+                  pos,
+                  fill: self.colors.hiro.at("text-muted"),
+                  weight: "light",
+                ),
+                width: 100%,
+              ),
+            ),
+          )
+        },
+      ),
     )
   }
 
@@ -135,7 +146,7 @@
     fill: black,
     size: 25pt,
   )
-  set outline(target: heading.where(level: 1), title: none, fill: none)
+  set outline(target: heading.where(level: 1), title: none)
 
   show heading.where(level: 1): set text(size: 1.5em, weight: "bold")
   show heading.where(level: 2): set block(below: 1.5em)
@@ -149,13 +160,14 @@
   let ulogo = if university-logo != none {
     university-logo
   } else {
-    image("../assets/cu-boulder.svg", width: 90%)
+    image("../assets/cu-boulder.svg", width: 85%)
   }
 
   let body = {
     set text(fill: white)
     set block(inset: 0mm, outset: 0mm, spacing: 0em)
     set align(top + left)
+    // Title slide with HIRO brand gradient (embodied green → social pink)
     _gradientize(
       self,
       block(
@@ -174,12 +186,10 @@
             )
           ]),
           grid.cell([
-            #pad(right: 1em)[
-              #align(
-                right,
-                ulogo,
-              )
-            ]
+            #align(
+              right,
+              ulogo,
+            )
           ]),
           grid.cell(
             colspan: 2,
@@ -225,7 +235,144 @@
           ),
         ),
       ),
-      colors: (self.colors.cyan.A.lighten(-20%), self.colors.orange.C.lighten(20%)),
+      // HIRO brand gradient: embodied green → social pink (pink darkened for better logo visibility)
+      colors: (self.colors.hiro.embodied, self.colors.hiro.social.darken(10%)),
+    )
+  }
+
+  self = utils.merge-dicts(
+    self,
+    config-common(freeze-slide-counter: true),
+    config-page(margin: 0em),
+    config-common(subslide-preamble: none),
+  )
+
+  touying-slide(
+    self: self,
+    body,
+  )
+})
+
+/// Creates a dark title slide with a black background and gradient text accents.
+///
+/// Example:
+///
+/// ```typst
+/// #title-slide-dark(title: "Override Title")
+/// ```
+///
+/// If no title or subtitle is provided, will use the info object.
+///
+/// - `title` (str): The title of the slide. Default: "".
+/// - `subtitle` (str): The subtitle of the slide. Default: "".
+/// - `lab-logo` (content): Path to the lab logo. Default: hiro-white-text.svg.
+/// - `university-logo` (content): Path to the university logo. Default: cu-boulder.svg.
+/// - `..args`: Additional arguments to pass to the slide.
+#let title-slide-dark(
+  title: "",
+  subtitle: "",
+  lab-logo: none,
+  university-logo: none,
+  ..args,
+) = touying-slide-wrapper(self => {
+  set text(
+    fill: white,
+    size: 25pt,
+  )
+  set outline(target: heading.where(level: 1), title: none)
+
+  show heading.where(level: 1): set text(size: 1.5em, weight: "bold")
+  show heading.where(level: 2): set block(below: 1.5em)
+
+  let info = self.info + args.named()
+  let llogo = if lab-logo != none {
+    lab-logo
+  } else {
+    image("../assets/hiro-white-text.svg", width: 40%)
+  }
+  let ulogo = if university-logo != none {
+    university-logo
+  } else {
+    image("../assets/cu-boulder-white.svg", width: 100%)
+  }
+
+  let body = {
+    set text(fill: white)
+    set block(inset: 0mm, outset: 0mm, spacing: 0em)
+    set align(top + left)
+    // Dark title slide with black background
+    rect(
+      fill: self.colors.hiro.backdrop,
+      width: 100%,
+      height: 100%,
+      block(
+        fill: none,
+        width: 100%,
+        height: 100%,
+        inset: 0.5em,
+        grid(
+          columns: (4fr, 2fr),
+          rows: (6em, 6em, 4em, 4em),
+          inset: .5em,
+          grid.cell([
+            #align(
+              left,
+              llogo,
+            )
+          ]),
+          grid.cell([
+            #align(
+              right,
+              ulogo,
+            )
+          ]),
+          grid.cell(
+            colspan: 2,
+            [
+              // Title with gradient text effect
+              #text(
+                size: 1.25em,
+                weight: "bold",
+                fill: gradient.linear(self.colors.hiro.social, self.colors.hiro.embodied, self.colors.hiro.embodied),
+                if (title != "") {
+                  title
+                } else {
+                  info.title
+                },
+              )
+              #linebreak()
+              #text(
+                size: 1em,
+                weight: "regular",
+                fill: self.colors.hiro.at("text-muted"),
+                if (subtitle != "") {
+                  subtitle
+                } else {
+                  info.subtitle
+                },
+              )
+            ]
+          ),
+          grid.cell(
+            colspan: 2,
+            [
+              #if ((none, "").all(x => x != info.subtitle)) {
+                linebreak()
+              }
+              #set text(size: .75em, fill: self.colors.white)
+              #text(weight: "bold", info.author)
+            ]
+          ),
+          grid.cell(
+            colspan: 2,
+            inset: (bottom: 0em),
+            [
+              #set text(size: .65em, fill: self.colors.hiro.at("text-muted"))
+              #utils.display-info-date(self)
+            ]
+          ),
+        ),
+      ),
     )
   }
 
@@ -474,14 +621,15 @@
 
   let create-text-cell() = {
     let new-txt = merged-txt.text
-    if type(merged-txt.enhanced) == "boolean" and merged-txt.enhanced {
+    let enhanced-type = type(merged-txt.enhanced)
+    if enhanced-type == bool and merged-txt.enhanced {
       new-txt = text(size: 2em, weight: 900, merged-txt.text)
-    } else if type(merged-txt.enhanced) == "boolean" and not merged-txt.enhanced {
+    } else if enhanced-type == bool and not merged-txt.enhanced {
       new-txt = merged-txt.text
-    } else if type(merged-txt.enhanced) == "function" {
+    } else if enhanced-type == function {
       new-txt = (merged-txt.enhanced)(merged-txt.text)
     } else {
-      panic("Value of enhanced key must be a boolean or a function")
+      panic("Value of enhanced key must be a boolean or a function, got: " + str(enhanced-type))
     }
 
     _cell(
@@ -739,7 +887,7 @@
       yellow: yellow,
       hiro: hiro,
       cu: cu,
-      primary: nblue.E,
+      primary: hiro.social,
     ),
 
     config-page(
@@ -779,7 +927,7 @@
           font: settings.FONT,
           size: settings.TEXT-SIZE,
         )
-        set outline(target: heading.where(level: 1), title: none, fill: none)
+        set outline(target: heading.where(level: 1), title: none)
         set enum(numbering: n => [*#n;.*])
         set highlight(extent: 1pt)
 

@@ -25,15 +25,40 @@
     "sg": "Question",
     "pl": "Questions",
   ),
+  "note": (
+    "sg": "Note",
+    "pl": "Notes",
+  ),
+  "warning": (
+    "sg": "Warning",
+    "pl": "Warnings",
+  ),
 )
 
+/// Creates an admonition block with HIRO dark theme glassmorphism styling
+///
+/// - `body` (content): The content of the admonition
+/// - `title` (str): The title/label of the admonition
+/// - `time` (str): Optional time annotation
+/// - `primary-color` (color): The accent color for the left border
+/// - `secondary-color` (color): The background fill color
+/// - `tertiary-color` (color): The title text color
+/// - `text-color` (color): The body text color
+/// - `dotted` (bool): Whether to use a dotted border
+/// - `figured` (bool): Whether to wrap in a figure
+/// - `counter` (counter): Counter for numbering
+/// - `show-numbering` (bool): Whether to show numbering
+/// - `numbering-format` (function): Format function for numbering
+/// - `figure-supplement` (str): Supplement text for figure
+/// - `figure-kind` (str): Kind identifier for figure
+/// - `emoji` (content): Emoji/icon to display before title
 #let admonition(
   body,
   title: none,
   time: none,
-  primary-color: pink.E,
-  secondary-color: pink.E.lighten(90%),
-  tertiary-color: pink.E,
+  primary-color: hiro.embodied,
+  secondary-color: hiro.gray,
+  tertiary-color: hiro.embodied,
   dotted: false,
   figured: false,
   counter: none,
@@ -41,7 +66,7 @@
   numbering-format: (..n) => numbering("1.1", ..n),
   figure-supplement: none,
   figure-kind: none,
-  text-color: black,
+  text-color: hiro.at("text-main"),
   emoji: none,
 ) = {
 
@@ -65,16 +90,18 @@
       counter.step()
     }
 
+    // Glassmorphism-style admonition card
     block(
       width: 100%,
       height: auto,
-      inset: 0.2em,
+      inset: 0.5em,
       outset: 0.2em,
       fill: secondary-color,
+      radius: 8pt,
 
       stroke: (
         left: (
-          thickness: 5pt,
+          thickness: 4pt,
           paint: primary-color,
           dash: if dotted {
             "dotted"
@@ -82,11 +109,16 @@
             "solid"
           },
         ),
+        top: 1pt + hiro.at("text-muted").transparentize(80%),
+        right: 1pt + hiro.at("text-muted").transparentize(80%),
+        bottom: 1pt + hiro.at("text-muted").transparentize(80%),
       ),
 
       pad(
-        left: 0.3em,
+        left: 0.5em,
         right: 0.3em,
+        top: 0.2em,
+        bottom: 0.2em,
         text(
           size: 1.1em,
           strong(
@@ -96,13 +128,13 @@
                 [ ] + context numbering(
                   numbering-format,
                   ..counter.at(here()),
-                ) + h(1fr) + time
+                ) + h(1fr) + text(fill: hiro.at("text-muted"), time)
               },
             ),
           ),
         ) + block(
-          above: 0.8em,
-          text(size: 1.2em, fill: text-color, body),
+          above: 0.6em,
+          text(size: 1.1em, fill: text-color, body),
         ),
       ),
     )
@@ -115,6 +147,8 @@
   }
 }
 
+/// Task admonition - for action items and todos
+/// Uses blue accent color
 #let task(body, plural: false) = admonition(
   body,
   title: (ADMONITION-TRANSLATIONS).at("task").at(if plural {
@@ -123,13 +157,15 @@
     "sg"
   }),
   primary-color: blue.E,
-  secondary-color: blue.E.lighten(90%),
+  secondary-color: hiro.gray,
   tertiary-color: blue.E,
   figure-kind: "task",
   counter: counter("admonition-task"),
-  emoji: emoji.hand.write,
+  emoji: "✍️",
 )
 
+/// Definition admonition - for key terms and concepts
+/// Uses HIRO embodied green accent
 #let definition(body, plural: false) = admonition(
   body,
   title: (ADMONITION-TRANSLATIONS).at("definition").at(if plural {
@@ -137,14 +173,16 @@
   } else {
     "sg"
   }),
-  primary-color: ngreen.C,
-  secondary-color: ngreen.C.lighten(90%),
-  tertiary-color: ngreen.B,
+  primary-color: hiro.embodied,
+  secondary-color: hiro.gray,
+  tertiary-color: hiro.embodied,
   figure-kind: "definition",
   counter: counter("admonition-definition"),
-  emoji: emoji.brain,
+  emoji: "🧠",
 )
 
+/// Brainstorming admonition - for ideas and creative thinking
+/// Uses orange accent color
 #let brainstorming(body, plural: false) = admonition(
   body,
   title: (ADMONITION-TRANSLATIONS).at("brainstorming").at(if plural {
@@ -153,13 +191,15 @@
     "sg"
   }),
   primary-color: orange.E,
-  secondary-color: orange.E.lighten(90%),
+  secondary-color: hiro.gray,
   tertiary-color: orange.E,
   figure-kind: "brainstorming",
   counter: counter("admonition-brainstorming"),
-  emoji: emoji.lightbulb,
+  emoji: "💡",
 )
 
+/// Question admonition - for questions and inquiries
+/// Uses violet accent color
 #let question(body, plural: false) = admonition(
   body,
   title: (ADMONITION-TRANSLATIONS).at("question").at(if plural {
@@ -168,9 +208,60 @@
     "sg"
   }),
   primary-color: violet.E,
-  secondary-color: violet.E.lighten(90%),
+  secondary-color: hiro.gray,
   tertiary-color: violet.E,
   figure-kind: "question",
   counter: counter("admonition-question"),
-  emoji: emoji.quest,
+  emoji: "❓",
+)
+
+/// Example admonition - for examples and demonstrations
+/// Uses cyan accent color
+#let example(body, plural: false) = admonition(
+  body,
+  title: (ADMONITION-TRANSLATIONS).at("example").at(if plural {
+    "pl"
+  } else {
+    "sg"
+  }),
+  primary-color: cyan.E,
+  secondary-color: hiro.gray,
+  tertiary-color: cyan.E,
+  figure-kind: "example",
+  counter: counter("admonition-example"),
+  emoji: "🔍",
+)
+
+/// Note admonition - for important information
+/// Uses HIRO accent teal color
+#let note(body, plural: false) = admonition(
+  body,
+  title: (ADMONITION-TRANSLATIONS).at("note").at(if plural {
+    "pl"
+  } else {
+    "sg"
+  }),
+  primary-color: hiro.accent,
+  secondary-color: hiro.gray,
+  tertiary-color: hiro.accent,
+  figure-kind: "note",
+  counter: counter("admonition-note"),
+  emoji: "📝",
+)
+
+/// Warning admonition - for cautions and alerts
+/// Uses HIRO social pink color
+#let warning(body, plural: false) = admonition(
+  body,
+  title: (ADMONITION-TRANSLATIONS).at("warning").at(if plural {
+    "pl"
+  } else {
+    "sg"
+  }),
+  primary-color: hiro.social,
+  secondary-color: hiro.gray,
+  tertiary-color: hiro.social,
+  figure-kind: "warning",
+  counter: counter("admonition-warning"),
+  emoji: "⚠️",
 )

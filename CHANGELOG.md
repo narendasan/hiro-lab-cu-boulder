@@ -1,3 +1,70 @@
+# v1.2.0 (2025-02-05)
+
+## HIRO Lab Rebrand Update
+
+Major update to align with the new HIRO Lab branding from [hiro-group.ronc.one](https://hiro-group.ronc.one).
+
+### Colors
+
+- **New brand colors**:
+  - `hiro.embodied` (`#32FFB8`): Electric green for Embodied Intelligence
+  - `hiro.social` (`#F32B92`): Electric pink for Social Intelligence
+  - `hiro.accent` (`#00a0a0`): Legacy HIRO teal accent
+  - `hiro.backdrop` (`#000000`): Dark background
+  - `hiro.bg-dark` (`#111111`): Secondary dark background
+  - `hiro.card-bg` (`#1a1a1a`): Card/container background
+  - `hiro.text-main` (`#eeeeee`): Primary text color
+  - `hiro.text-muted` (`#aeaeae`): Muted/secondary text color
+- Legacy `hiro.tealA` and `hiro.tealB` maintained for compatibility
+- Updated `link-color` to use embodied green
+
+### Themes
+
+- **New focus slide themes**:
+  - `neon`: HIRO signature gradient (embodied green → social pink)
+  - `embodied`: Black to embodied green
+  - `social`: Black to social pink
+  - `hiro_gradient`: Full brand gradient
+  - `hiro_dark`: Pure dark mode
+  - `midnight`: Black to dark gray
+- Updated existing `hiro` and `hiro_light` themes
+
+### Slides
+
+- **Title Slide**: Updated gradient to use HIRO brand colors (embodied → social)
+- **Footer**: Added gradient accent line at top (embodied green → social pink)
+- **Footer**: Updated text colors to use new `text-main` and `text-muted` colors
+
+### Admonitions
+
+- Updated to dark theme glassmorphism styling
+- Dark backgrounds with subtle borders
+- Gradient accent on left border
+- **New admonition types**:
+  - `example`: Cyan accent for demonstrations
+  - `note`: HIRO teal accent for important information
+  - `warning`: Social pink accent for cautions
+- Updated `definition` to use embodied green accent
+
+### Utilities
+
+- Updated default gradient angle to 135deg
+- Updated quote styling with dark theme and gradient accent border
+
+### Settings
+
+- Updated font stack to modern geometric sans-serif fonts (Inter, SF Pro Display, etc.)
+- Added `SLIDE-MARGIN` setting
+
+### Documentation
+
+- Updated README with brand color documentation
+- Added focus slide theme table
+- Added admonition usage examples
+- Added brand color usage examples
+
+---
+
 # v1.1.0 (2024-10-16)
 
 ## General

@@ -1,8 +1,7 @@
-
 #let white = rgb("#ffffff")
 #let black = rgb("#000000")
 
-#let link-color = rgb(118, 50, 55)
+#let link-color = rgb("#32FFB8")
 
 #let gray = (
   "A": rgb("#333332"),
@@ -124,10 +123,30 @@
   "E": rgb("#FFF028"),
 )
 
+// HIRO Lab Brand Colors (2024+ rebrand)
+// Primary: Embodied Intelligence Green (#32FFB8)
+// Secondary: Social Intelligence Pink (#F32B92)
+// Background: Dark (#000000, #111111)
+// Accent: Teal (#00a0a0)
 #let hiro = (
-  "tealA": rgb("#01A0A0"),
-  "gray": rgb("#282828"),
-  "tealB": rgb("#33ff95"),
+  // Primary brand colors
+  "embodied": rgb("#32FFB8"),      // Electric green - Embodied Intelligence
+  "social": rgb("#F32B92"),         // Electric pink - Social Intelligence
+  "accent": rgb("#00a0a0"),         // Teal accent (legacy HIRO blue)
+
+  // Background colors
+  "backdrop": rgb("#000000"),       // Pure black background
+  "bg-dark": rgb("#111111"),        // Slightly lighter dark background
+  "card-bg": rgb("#1a1a1a"),        // Card/container background
+  "gray": rgb("#282828"),           // Footer/header gray
+
+  // Text colors
+  "text-main": rgb("#eeeeee"),      // Primary text color
+  "text-muted": rgb("#aeaeae"),     // Secondary/muted text
+
+  // Legacy colors (for compatibility)
+  "tealA": rgb("#00a0a0"),          // Same as accent
+  "tealB": rgb("#32FFB8"),          // Same as embodied
   "lblueA": rgb("#047afb"),
   "lblueB": rgb("#d3f2fc"),
 )
@@ -145,15 +164,14 @@
 // ----
 
 #let colorthemes = (
+  // Light themes
   lblue: (blue.E, cyan.E),
   blue: (nblue.E, cyan.E),
   dblue: (nblue.E, blue.E),
   yellow: (yellow.B, yellow.C, black),
   pink: (pink.E, pink.B),
-  neon: (violet.E, pink.E),
   mandarine: (orange.E, brown.E),
   hazy: (maroon.E, gray.E),
-  smoke: (gray.E, black),
   forest: (green.A, camo.E),
   berry: (pink.A, purple.A),
   ocean: (cyan.A, blue.B, blue.D),
@@ -163,6 +181,17 @@
   mint: (ngreen.E, cyan.C, black),
   lemon: (yellow.A, camo.E, black),
   wine: (maroon.A, brown.A, maroon.D),
-  hiro: (hiro.gray, hiro.tealA, white),
-  hiro_light: (white, hiro.tealA, black),
+
+  // HIRO Lab brand themes
+  neon: (hiro.embodied, hiro.social),                           // Signature gradient (green → pink)
+  hiro: (hiro.gray, hiro.embodied, white),                      // Dark with green accent
+  hiro_light: (white, hiro.embodied, black),                    // Light with green accent
+  embodied: (hiro.backdrop, hiro.embodied, white),              // Black to green
+  social: (hiro.backdrop, hiro.social, white),                  // Black to pink
+  hiro_gradient: (hiro.embodied, hiro.social, white),           // Full brand gradient
+  hiro_dark: (hiro.bg-dark, hiro.gray, hiro.text-main),         // Dark mode
+
+  // Neutral/dark themes
+  smoke: (gray.E, black),
+  midnight: (hiro.backdrop, hiro.bg-dark, white),               // Pure dark
 )

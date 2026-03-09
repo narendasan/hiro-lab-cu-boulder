@@ -1,128 +1,223 @@
 #import "@preview/touying:0.5.3": *
-#import "@local/hiro-lab-cu-boulder:0.1.0": *
+#import "../src/lib.typ": *
 
 #show: hiro-theme.with(
   aspect-ratio: "16-9",
   config-info(
-    title: [Title],
-    subtitle: [_Subtitle_],
-    author: [Author],
+    title: [HIRO Lab Presentation Template],
+    subtitle: [_Human Interaction and Robotics Group_],
+    author: [Your Name],
     date: datetime.today().display("[month repr:long] [day], [year repr:full]"),
-    logo: image("../assets/cu-boulder.svg"),
+    logo: image("../assets/hiro-square.svg"),
   ),
 )
 
 #title-slide()
 
-= Example Section Title
+== Alternative: Dark Title Slide
 
-== Example Slide
+#title-slide-dark()
 
-A slide with *important information*.
+= Introduction
+
+== Welcome to HIRO Lab
+
+The *Human Interaction and RObotics* (HIRO) Group works at the intersection of:
+
+- *Artificial Intelligence*
+- *Robotics*
+- *Human-AI Teaming*
+
+Our goal is building robot systems that enable close, natural, and extended cooperation with humans.
 
 #pause
 
-=== Highlight
-This is #highlight(fill: blue.C)[highlighted in blue]. This is #highlight(fill: yellow.C)[highlighted in yellow]. This is #highlight(fill: green.C)[highlighted in green]. This is #highlight(fill: red.C)[highlighted in red].
+=== Color Palette
+
+The HIRO brand uses two signature colors:
+
+- #text(fill: hiro.embodied)[*Embodied Intelligence Green*] (#text(fill: hiro.embodied)[`#32FFB8`])
+- #text(fill: hiro.social)[*Social Intelligence Pink*] (#text(fill: hiro.social)[`#F32B92`])
+
+== Text Emphasis
+
+Use *bold text* for emphasis (uses social pink by default).
+
+You can also use the brand color functions:
+- #embodied[Embodied Intelligence] - green bold text
+- #social[Social Intelligence] - pink bold text
+- #accent-bold[Accent text] - teal bold text
+
+== Highlighting Examples
+
+This is #highlight(fill: hiro.embodied.lighten(60%))[highlighted with embodied green].
+
+This is #highlight(fill: hiro.social.lighten(60%))[highlighted with social pink].
+
+This is #highlight(fill: hiro.accent.lighten(60%))[highlighted with HIRO accent teal].
+
+Traditional colors also work: #highlight(fill: blue.C)[blue], #highlight(fill: yellow.C)[yellow], #highlight(fill: green.C)[green], #highlight(fill: red.C)[red].
+
+= Research Areas
+
+== Embodied Intelligence
 
 #hero(
   image("../assets/cu-boulder.svg"),
-  title: "Hero",
-  subtitle: "Subtitle",
+  title: "Embodied Intelligence & Sensorimotor Learning",
+  subtitle: "Learning through physical interaction",
   hide-footer: false,
 )
+
+== Social Intelligence
 
 #hero(
   image("../assets/cat1.jpg", width: 100%, height: 100%),
   txt: (
-    text: "This is an " + highlight(fill: yellow.C)[RTL#footnote[RTL = right to left. Oh, and here's a footnote!] hero with text and no title] + ".\n",
+    text: [#social[Social Intelligence] and Human-Robot Collaboration],
     enhanced: false,
   ),
   direction: "rtl",
   footnote: true,
 )
 
+= Visual Elements
+
+== Gallery
+
 #gallery(
   image("../assets/cat1.jpg", width: auto, height: 50%),
   image("../assets/cat2.jpg", width: auto, height: 50%),
   image("../assets/cat1.jpg", width: auto, height: 50%),
   image("../assets/cat2.jpg", width: auto, height: 50%),
-  title: "Gallery",
+  title: "Research Gallery",
   captions: (
-    "Cat 1",
-    "Cat 2",
-    "Cat 1 again",
-    "Cat 2 again",
+    "Experiment 1",
+    "Experiment 2",
+    "Analysis 1",
+    "Analysis 2",
   ),
   columns: 4,
+)
+
+= Focus Slides
+
+== HIRO Brand Themes
+
+#focus-slide(
+  theme: "neon",
+  [
+    *Neon Theme* \ HIRO Signature Gradient \ (Embodied → Social)
+  ],
+)
+
+#focus-slide(
+  theme: "embodied",
+  [
+    *Embodied Theme* \ Black to Green
+  ],
+)
+
+#focus-slide(
+  theme: "social",
+  [
+    *Social Theme* \ Black to Pink
+  ],
+)
+
+#focus-slide(
+  theme: "hiro",
+  [
+    *HIRO Theme* \ Dark with Green Accent
+  ],
 )
 
 #focus-slide(
   theme: "smoke",
   [
-    This is a focus slide \ with theme "smoke"
+    *Smoke Theme* \ Neutral Dark
   ],
 )
 
-== Admonitions
+#focus-slide(
+  theme: "midnight",
+  [
+    *Midnight Theme* \ Pure Dark Mode
+  ],
+)
+
+= Admonitions
+
+== Admonition Examples
 
 #slide[
-  This is a normal slide with *admonitions*:
+  #definition[
+    *Peripersonal Space*: The space immediately surrounding our bodies, where we can reach and interact with objects.
+  ]
 
   #brainstorming[
-    This is a brainstorming.
-  ]
-
-  #definition[
-    This is a definition.
+    How can we leverage body schema representations for robot learning?
   ]
 ]
 
-#focus-slide(
-  theme: "neon",
-  [
-    This is a focus slide \ with theme "neon"
-  ],
-)
-
-#focus-slide(
-  theme: "yellow",
-  [
-    This is a focus slide \ with theme "yellow"
-  ],
-)
-
-#focus-slide(
-  c1: black,
-  c2: white,
-  [
-    This is a focus slide \ with custom colors
-    \ Next: Section 2
-  ],
-  text-color: yellow.D,
-)
-
-= Section 2
-
-== Hey! New Section!
-
-#lorem(30)
-
-=== Heading 3
-
-#lorem(10)
-
-==== Heading 4
-
-#lorem(80)
-
-#quote(attribution: [from the Henry Cary literal translation of 1897])[
-  ... I seem, then, in just this little thing to be wiser than this man at
-  any rate, that what I do not know I do not think I know either.
-]
+== More Admonitions
 
 #slide[
-  First column. #lorem(15)
-][
-  Second column. #lorem(15)
+  #task[
+    Implement the new sensorimotor learning algorithm.
+  ]
+
+  #question[
+    What role does social intelligence play in human-robot collaboration?
+  ]
 ]
+
+== Additional Admonition Types
+
+#slide[
+  #note[
+    HIRO Group meetings are held biweekly on Wednesdays at 11:30 AM in ECES 116.
+  ]
+
+  #warning[
+    Always follow proper safety protocols when working with robot hardware.
+  ]
+
+  #example[
+    The CAT-RRT algorithm enables motion planning with intentional contact.
+  ]
+]
+
+= Conclusion
+
+== Quotes
+
+#quote(attribution: [Alessandro Roncone, HIRO Lab])[
+  We believe that to build truly capable and general-purpose robots, we must look at people not just as users, but as models of intelligence.
+]
+
+== Two-Column Layout
+
+#slide[
+  #embodied[Embodied Intelligence]
+
+  - Sensorimotor learning
+  - Contact-aware planning
+  - Body schema representations
+  - Physical interaction
+][
+  #social[Social Intelligence]
+
+  - Human-robot collaboration
+  - Shared task models
+  - Implicit coordination
+  - Behavioral cues
+]
+
+#focus-slide(
+  theme: "hiro_gradient",
+  [
+    *Thank You!* \
+    Questions?
+  ],
+)

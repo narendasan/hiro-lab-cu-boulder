@@ -8,7 +8,7 @@
     subtitle: [_Subtitle_],
     author: [Author],
     date: datetime.today().display("[month repr:long] [day], [year repr:full]"),
-    logo: image("unistra.svg"),
+    logo: image("../assets/hiro-square.svg"),
   ),
 )
 
@@ -24,6 +24,6 @@ A slide with *important information*.
 #focus-slide(
   theme: "neon",
   [
-    This is a focus slide \ with theme "neon"
+    This is a focus slide \ with the HIRO brand gradient
   ],
 )

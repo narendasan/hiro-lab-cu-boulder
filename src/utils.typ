@@ -32,12 +32,13 @@
 )
 
 /// Adds gradient to body (used for slide-focus)
+/// Default uses HIRO brand gradient (embodied green → social pink)
 #let _gradientize(
   self,
   body,
-  colors: (nblue.E, nblue.E),
+  colors: (hiro.embodied, hiro.social),
   lighten-pct: 20%,
-  angle: 45deg,
+  angle: 135deg,
 ) = {
   rect(fill: gradient.linear(..colors, angle: angle), body)
 }
@@ -77,19 +78,24 @@
   }
 }
 
-// Creates a custom quote element
+// Creates a custom quote element with HIRO dark theme styling
 #let _custom-quote(it) = {
   v(1em)
   box(
-    fill: luma(220),
+    fill: hiro.gray,
     outset: 1em,
     width: 100%,
+    radius: 8pt,
+    stroke: (
+      left: 3pt + gradient.linear(hiro.embodied, hiro.social, angle: 180deg),
+    ),
     [
+      #set text(fill: hiro.at("text-main"))
       // smartquote() doesn't work properly here,
       // probably because we're in a block
       #settings.QUOTES.at("left") #it.body #settings.QUOTES.at("right")
       #if it.attribution != none [
-        #set text(size: 0.8em)
+        #set text(size: 0.8em, fill: hiro.at("text-muted"))
         #linebreak()
         #h(1fr)
         (#it.attribution)
@@ -104,4 +110,31 @@
 
 #let smallest = it => {
   text(size: 20pt, it)
+}
+
+// HIRO brand emphasis functions
+// Use these to emphasize text with brand colors
+
+/// Emphasize text with HIRO embodied green (bold green text, slightly darkened for readability)
+/// Usage: #embodied[Your text here]
+#let embodied = it => {
+  text(fill: hiro.embodied.darken(15%), weight: "bold", it)
+}
+
+/// Emphasize text with HIRO social pink (bold pink text)
+/// Usage: #social[Your text here]
+#let social = it => {
+  text(fill: hiro.social, weight: "bold", it)
+}
+
+/// Alias for embodied - green bold text
+#let green-bold = embodied
+
+/// Alias for social - pink bold text
+#let pink-bold = social
+
+/// Emphasize with HIRO accent teal (bold teal text)
+/// Usage: #accent[Your text here]
+#let accent-bold = it => {
+  text(fill: hiro.accent, weight: "bold", it)
 }
