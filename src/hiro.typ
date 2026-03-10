@@ -181,13 +181,13 @@
           inset: .5em,
           grid.cell([
             #align(
-              left,
+              left + top,
               llogo,
             )
           ]),
           grid.cell([
             #align(
-              right,
+              right + top,
               ulogo,
             )
           ]),
@@ -316,13 +316,13 @@
           inset: .5em,
           grid.cell([
             #align(
-              left,
+              left + top,
               llogo,
             )
           ]),
           grid.cell([
             #align(
-              right,
+              right + top,
               ulogo,
             )
           ]),
@@ -907,11 +907,14 @@
       focus-slide: focus-slide,
       gallery: gallery,
       hero: hero,
-      subslide-preamble: self => text(
-        1.5em,
-        weight: "bold",
-        utils.display-current-heading(depth: self.slide-level) + "\n",
-      ),
+      subslide-preamble: self => {
+        text(
+          1.5em,
+          weight: "bold",
+          utils.display-current-heading(depth: self.slide-level),
+        )
+        v(0.5em)
+      },
     ),
 
     config-methods(
