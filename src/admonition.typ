@@ -57,7 +57,7 @@
   title: none,
   time: none,
   primary-color: hiro.embodied,
-  secondary-color: hiro.gray,
+  secondary-color: rgb("#f5f5f5"),
   tertiary-color: hiro.embodied,
   dotted: false,
   figured: false,
@@ -66,7 +66,7 @@
   numbering-format: (..n) => numbering("1.1", ..n),
   figure-supplement: none,
   figure-kind: none,
-  text-color: hiro.at("text-main"),
+  text-color: black,
   emoji: none,
 ) = {
 
@@ -157,7 +157,7 @@
     "sg"
   }),
   primary-color: blue.E,
-  secondary-color: hiro.gray,
+  secondary-color: rgb("#f5f5f5"),
   tertiary-color: blue.E,
   figure-kind: "task",
   counter: counter("admonition-task"),
@@ -173,9 +173,9 @@
   } else {
     "sg"
   }),
-  primary-color: hiro.embodied,
-  secondary-color: hiro.gray,
-  tertiary-color: hiro.embodied,
+  primary-color: hiro.embodied.darken(25%),
+  secondary-color: rgb("#f5f5f5"),
+  tertiary-color: hiro.embodied.darken(25%),
   figure-kind: "definition",
   counter: counter("admonition-definition"),
   emoji: "🧠",
@@ -191,7 +191,7 @@
     "sg"
   }),
   primary-color: orange.E,
-  secondary-color: hiro.gray,
+  secondary-color: rgb("#f5f5f5"),
   tertiary-color: orange.E,
   figure-kind: "brainstorming",
   counter: counter("admonition-brainstorming"),
@@ -208,7 +208,7 @@
     "sg"
   }),
   primary-color: violet.E,
-  secondary-color: hiro.gray,
+  secondary-color: rgb("#f5f5f5"),
   tertiary-color: violet.E,
   figure-kind: "question",
   counter: counter("admonition-question"),
@@ -225,7 +225,7 @@
     "sg"
   }),
   primary-color: cyan.E,
-  secondary-color: hiro.gray,
+  secondary-color: rgb("#f5f5f5"),
   tertiary-color: cyan.E,
   figure-kind: "example",
   counter: counter("admonition-example"),
@@ -242,7 +242,7 @@
     "sg"
   }),
   primary-color: hiro.accent,
-  secondary-color: hiro.gray,
+  secondary-color: rgb("#f5f5f5"),
   tertiary-color: hiro.accent,
   figure-kind: "note",
   counter: counter("admonition-note"),
@@ -259,7 +259,7 @@
     "sg"
   }),
   primary-color: hiro.social,
-  secondary-color: hiro.gray,
+  secondary-color: rgb("#f5f5f5"),
   tertiary-color: hiro.social,
   figure-kind: "warning",
   counter: counter("admonition-warning"),
