@@ -943,7 +943,8 @@
           size: settings.TEXT-SIZE,
         )
         set outline(target: heading.where(level: 1), title: none)
-        set enum(numbering: n => [*#n;.*])
+        set list(spacing: 0.6em)
+        set enum(spacing: 0.6em, numbering: n => [*#n;.*])
         set highlight(extent: 1pt)
 
         // shows
