@@ -3,6 +3,7 @@
 
 #show: hiro-theme.with(
   aspect-ratio: "16-9",
+  dark-mode: false,
   config-info(
     title: [HIRO Lab Presentation Template],
     subtitle: [_Human Interaction and Robotics Group_],

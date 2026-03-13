@@ -1,6 +1,12 @@
 // HIRO Lab Presentation Theme Settings
 // ====================================
 
+// Dark mode (switches slide backgrounds and text colors)
+#let DARK-MODE = false
+
+// State for runtime dark mode propagation (set by hiro-theme)
+#let dark-mode-state = state("hiro-dark-mode", false)
+
 // Header/Footer visibility
 #let SHOW-HEADER = false
 #let SHOW-FOOTER = true

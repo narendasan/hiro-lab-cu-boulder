@@ -2,6 +2,7 @@
 #import "colors.typ": *
 
 
+
 // ===================================
 // ============ UTILITIES ============
 // ===================================
@@ -78,11 +79,15 @@
   }
 }
 
-// Creates a custom quote element with HIRO dark theme styling
-#let _custom-quote(it) = {
+// Creates a custom quote element that respects dark mode setting
+#let _custom-quote(it) = context {
+  let dark = settings.dark-mode-state.get()
+  let quote-bg = if dark { hiro.gray } else { rgb("#f5f5f5") }
+  let quote-text = if dark { hiro.at("text-main") } else { black }
+  let quote-text-muted = if dark { hiro.at("text-muted") } else { gray.A }
   v(1em)
   box(
-    fill: hiro.gray,
+    fill: quote-bg,
     outset: 1em,
     width: 100%,
     radius: 8pt,
@@ -90,12 +95,10 @@
       left: 3pt + gradient.linear(hiro.embodied, hiro.social, angle: 180deg),
     ),
     [
-      #set text(fill: hiro.at("text-main"))
-      // smartquote() doesn't work properly here,
-      // probably because we're in a block
+      #set text(fill: quote-text)
       #settings.QUOTES.at("left") #it.body #settings.QUOTES.at("right")
       #if it.attribution != none [
-        #set text(size: 0.8em, fill: hiro.at("text-muted"))
+        #set text(size: 0.8em, fill: quote-text-muted)
         #linebreak()
         #h(1fr)
         (#it.attribution)
@@ -137,4 +140,31 @@
 /// Usage: #accent[Your text here]
 #let accent-bold = it => {
   text(fill: hiro.accent, weight: "bold", it)
+}
+
+// HIRO brand highlight functions
+// Use these for highlighted text that adapts to dark/light mode
+
+/// Highlight with HIRO embodied green (adapts to dark mode automatically)
+/// Usage: #hl-embodied[Your text here]
+#let hl-embodied(body) = context {
+  let dark = settings.dark-mode-state.get()
+  let fill-color = if dark { hiro.embodied.darken(20%) } else { hiro.embodied.lighten(60%) }
+  highlight(fill: fill-color, body)
+}
+
+/// Highlight with HIRO social pink (adapts to dark mode automatically)
+/// Usage: #hl-social[Your text here]
+#let hl-social(body) = context {
+  let dark = settings.dark-mode-state.get()
+  let fill-color = if dark { hiro.social.darken(15%) } else { hiro.social.lighten(60%) }
+  highlight(fill: fill-color, body)
+}
+
+/// Highlight with HIRO accent teal (adapts to dark mode automatically)
+/// Usage: #hl-accent[Your text here]
+#let hl-accent(body) = context {
+  let dark = settings.dark-mode-state.get()
+  let fill-color = if dark { hiro.accent.darken(10%) } else { hiro.accent.lighten(60%) }
+  highlight(fill: fill-color, body)
 }

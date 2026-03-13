@@ -54,7 +54,7 @@
       block(
         width: 100%,
         height: 100% - 3pt,
-        fill: self.colors.hiro.gray,
+        fill: self.colors.hiro.backdrop,
         {
           set text(size: 1.5em)
           grid(
@@ -853,8 +853,11 @@
 })
 
 /// Registers the hiro theme.
+///
+/// - `dark-mode` (bool): Enable dark mode (black background, white text). Default: none (uses settings.DARK-MODE).
 #let hiro-theme(
   aspect-ratio: "16-9",
+  dark-mode: none,
   header: [],
   footer: [],
   footer-info-2: self => {
@@ -864,6 +867,8 @@
   ..args,
   body,
 ) = {
+  // Resolve dark mode: parameter overrides settings
+  let is-dark-mode = if dark-mode != none { dark-mode } else { settings.DARK-MODE }
   set text(size: 20pt)
 
   show: touying-slides.with(
@@ -899,6 +904,7 @@
         0.6em
       },
       header-ascent: 1em,
+      fill: if is-dark-mode { hiro.backdrop } else { white },
     ),
 
     config-common(
@@ -924,9 +930,15 @@
 
       // init
       init: (self: none, body) => {
+        settings.dark-mode-state.update(self.store.is-dark-mode)
+        // Dark mode colors (uses theme parameter)
+        let text-color = if self.store.is-dark-mode { white } else { black }
+        let bg-color = if self.store.is-dark-mode { hiro.backdrop } else { white }
+        let link-col = if self.store.is-dark-mode { hiro.embodied } else { link-color }
+
         // sets
         set text(
-          fill: black,
+          fill: text-color,
           font: settings.FONT,
           size: settings.TEXT-SIZE,
         )
@@ -942,7 +954,7 @@
         show heading.where(level: 2): set block(below: 1.5em)
         // color links
         show link: it => text(
-          link-color,
+          link-col,
           underline.with(offset: 3pt, extent: -1pt)(it),
         )
         // custom quote
@@ -960,6 +972,7 @@
       colorthemes: colorthemes,
       slide-title: [],
       auto-heading: true,
+      is-dark-mode: is-dark-mode,
     ),
 
     ..args,

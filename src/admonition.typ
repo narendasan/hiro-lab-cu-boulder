@@ -1,6 +1,16 @@
 #import "colors.typ": *
 #import "settings.typ" as settings
 
+// Color functions for admonitions based on dark mode
+#let get-admonition-bg(dark-mode) = if dark-mode { hiro.at("card-bg") } else { rgb("#f5f5f5") }
+#let get-admonition-text(dark-mode) = if dark-mode { hiro.at("text-main") } else { black }
+#let get-admonition-border(dark-mode) = if dark-mode { hiro.gray } else { rgb("#e0e0e0") }
+
+// Default colors (based on settings)
+#let admonition-bg = get-admonition-bg(settings.DARK-MODE)
+#let admonition-text = get-admonition-text(settings.DARK-MODE)
+#let admonition-border = get-admonition-border(settings.DARK-MODE)
+
 // Credit: piepert
 // https://github.com/piepert/grape-suite/blob/3be3e71a994bae82c9a9dedf41e918d7837ccc39/src/elements.typ
 
@@ -57,7 +67,7 @@
   title: none,
   time: none,
   primary-color: hiro.embodied,
-  secondary-color: rgb("#f5f5f5"),
+  secondary-color: auto,
   tertiary-color: hiro.embodied,
   dotted: false,
   figured: false,
@@ -66,9 +76,14 @@
   numbering-format: (..n) => numbering("1.1", ..n),
   figure-supplement: none,
   figure-kind: none,
-  text-color: black,
+  text-color: auto,
   emoji: none,
+  dark-mode: settings.DARK-MODE,
 ) = {
+  // Resolve auto colors based on dark mode
+  let bg-color = if secondary-color == auto { get-admonition-bg(dark-mode) } else { secondary-color }
+  let txt-color = if text-color == auto { get-admonition-text(dark-mode) } else { text-color }
+  let border-color = get-admonition-border(dark-mode)
 
   if figured {
     if figure-supplement == none {
@@ -90,13 +105,12 @@
       counter.step()
     }
 
-    // Glassmorphism-style admonition card
     block(
       width: 100%,
       height: auto,
       inset: 0.5em,
       outset: 0.2em,
-      fill: secondary-color,
+      fill: bg-color,
       radius: 8pt,
 
       stroke: (
@@ -109,9 +123,9 @@
             "solid"
           },
         ),
-        top: 1pt + hiro.at("text-muted").transparentize(80%),
-        right: 1pt + hiro.at("text-muted").transparentize(80%),
-        bottom: 1pt + hiro.at("text-muted").transparentize(80%),
+        top: 1pt + border-color,
+        right: 1pt + border-color,
+        bottom: 1pt + border-color,
       ),
 
       pad(
@@ -134,7 +148,7 @@
           ),
         ) + block(
           above: 0.6em,
-          text(size: 1.1em, fill: text-color, body),
+          text(size: 1.1em, fill: txt-color, body),
         ),
       ),
     )
@@ -149,119 +163,94 @@
 
 /// Task admonition - for action items and todos
 /// Uses blue accent color
-#let task(body, plural: false) = admonition(
+#let task(body, plural: false) = context admonition(
   body,
-  title: (ADMONITION-TRANSLATIONS).at("task").at(if plural {
-    "pl"
-  } else {
-    "sg"
-  }),
+  title: (ADMONITION-TRANSLATIONS).at("task").at(if plural { "pl" } else { "sg" }),
   primary-color: blue.E,
-  secondary-color: rgb("#f5f5f5"),
   tertiary-color: blue.E,
   figure-kind: "task",
   counter: counter("admonition-task"),
   emoji: "✍️",
+  dark-mode: settings.dark-mode-state.get(),
 )
 
 /// Definition admonition - for key terms and concepts
 /// Uses HIRO embodied green accent
-#let definition(body, plural: false) = admonition(
-  body,
-  title: (ADMONITION-TRANSLATIONS).at("definition").at(if plural {
-    "pl"
-  } else {
-    "sg"
-  }),
-  primary-color: hiro.embodied.darken(25%),
-  secondary-color: rgb("#f5f5f5"),
-  tertiary-color: hiro.embodied.darken(25%),
-  figure-kind: "definition",
-  counter: counter("admonition-definition"),
-  emoji: "🧠",
-)
+#let definition(body, plural: false) = context {
+  let dm = settings.dark-mode-state.get()
+  admonition(
+    body,
+    title: (ADMONITION-TRANSLATIONS).at("definition").at(if plural { "pl" } else { "sg" }),
+    primary-color: if dm { hiro.embodied } else { hiro.embodied.darken(25%) },
+    tertiary-color: if dm { hiro.embodied } else { hiro.embodied.darken(25%) },
+    figure-kind: "definition",
+    counter: counter("admonition-definition"),
+    emoji: "🧠",
+    dark-mode: dm,
+  )
+}
 
 /// Brainstorming admonition - for ideas and creative thinking
 /// Uses orange accent color
-#let brainstorming(body, plural: false) = admonition(
+#let brainstorming(body, plural: false) = context admonition(
   body,
-  title: (ADMONITION-TRANSLATIONS).at("brainstorming").at(if plural {
-    "pl"
-  } else {
-    "sg"
-  }),
+  title: (ADMONITION-TRANSLATIONS).at("brainstorming").at(if plural { "pl" } else { "sg" }),
   primary-color: orange.E,
-  secondary-color: rgb("#f5f5f5"),
   tertiary-color: orange.E,
   figure-kind: "brainstorming",
   counter: counter("admonition-brainstorming"),
   emoji: "💡",
+  dark-mode: settings.dark-mode-state.get(),
 )
 
 /// Question admonition - for questions and inquiries
 /// Uses violet accent color
-#let question(body, plural: false) = admonition(
+#let question(body, plural: false) = context admonition(
   body,
-  title: (ADMONITION-TRANSLATIONS).at("question").at(if plural {
-    "pl"
-  } else {
-    "sg"
-  }),
+  title: (ADMONITION-TRANSLATIONS).at("question").at(if plural { "pl" } else { "sg" }),
   primary-color: violet.E,
-  secondary-color: rgb("#f5f5f5"),
   tertiary-color: violet.E,
   figure-kind: "question",
   counter: counter("admonition-question"),
   emoji: "❓",
+  dark-mode: settings.dark-mode-state.get(),
 )
 
 /// Example admonition - for examples and demonstrations
 /// Uses cyan accent color
-#let example(body, plural: false) = admonition(
+#let example(body, plural: false) = context admonition(
   body,
-  title: (ADMONITION-TRANSLATIONS).at("example").at(if plural {
-    "pl"
-  } else {
-    "sg"
-  }),
+  title: (ADMONITION-TRANSLATIONS).at("example").at(if plural { "pl" } else { "sg" }),
   primary-color: cyan.E,
-  secondary-color: rgb("#f5f5f5"),
   tertiary-color: cyan.E,
   figure-kind: "example",
   counter: counter("admonition-example"),
   emoji: "🔍",
+  dark-mode: settings.dark-mode-state.get(),
 )
 
 /// Note admonition - for important information
 /// Uses HIRO accent teal color
-#let note(body, plural: false) = admonition(
+#let note(body, plural: false) = context admonition(
   body,
-  title: (ADMONITION-TRANSLATIONS).at("note").at(if plural {
-    "pl"
-  } else {
-    "sg"
-  }),
+  title: (ADMONITION-TRANSLATIONS).at("note").at(if plural { "pl" } else { "sg" }),
   primary-color: hiro.accent,
-  secondary-color: rgb("#f5f5f5"),
   tertiary-color: hiro.accent,
   figure-kind: "note",
   counter: counter("admonition-note"),
   emoji: "📝",
+  dark-mode: settings.dark-mode-state.get(),
 )
 
 /// Warning admonition - for cautions and alerts
 /// Uses HIRO social pink color
-#let warning(body, plural: false) = admonition(
+#let warning(body, plural: false) = context admonition(
   body,
-  title: (ADMONITION-TRANSLATIONS).at("warning").at(if plural {
-    "pl"
-  } else {
-    "sg"
-  }),
+  title: (ADMONITION-TRANSLATIONS).at("warning").at(if plural { "pl" } else { "sg" }),
   primary-color: hiro.social,
-  secondary-color: rgb("#f5f5f5"),
   tertiary-color: hiro.social,
   figure-kind: "warning",
   counter: counter("admonition-warning"),
   emoji: "⚠️",
+  dark-mode: settings.dark-mode-state.get(),
 )
