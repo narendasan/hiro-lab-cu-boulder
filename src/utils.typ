@@ -121,7 +121,7 @@
 /// Emphasize text with HIRO embodied green (bold green text, slightly darkened for readability)
 /// Usage: #embodied[Your text here]
 #let embodied = it => {
-  text(fill: hiro.embodied.darken(15%), weight: "bold", it)
+  text(fill: hiro.embodied.darken(10%), weight: "bold", it)
 }
 
 /// Emphasize text with HIRO social pink (bold pink text)
