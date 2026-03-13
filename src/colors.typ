@@ -130,7 +130,7 @@
 // Accent: Teal (#00a0a0)
 #let hiro = (
   // Primary brand colors
-  "embodied": rgb("#32FFB8"),      // Electric green - Embodied Intelligence
+  "embodied": rgb("#32FF96"),      // Electric green - Embodied Intelligence
   "social": rgb("#F32B92"),         // Electric pink - Social Intelligence
   "accent": rgb("#00a0a0"),         // Teal accent (legacy HIRO blue)
 
