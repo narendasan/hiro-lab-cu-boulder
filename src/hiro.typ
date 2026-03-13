@@ -949,6 +949,8 @@
         show quote: it => _custom-quote(it)
         show outline.entry: it => it.body
         show outline: it => block(inset: (x: 1em), it)
+        // smaller figure captions
+        show figure.caption: set text(size: 0.7em)
 
         body
       },
