@@ -177,20 +177,11 @@
         inset: 0.5em,
         grid(
           columns: (4fr, 2fr),
-          rows: (6em, 6em, 4em, 4em),
+          rows: (4em, 1fr, auto, auto, 1fr),
           inset: .5em,
-          grid.cell([
-            #align(
-              left + top,
-              llogo,
-            )
-          ]),
-          grid.cell([
-            #align(
-              right + top,
-              ulogo,
-            )
-          ]),
+          grid.cell(align: left + horizon, llogo),
+          grid.cell(align: right + horizon, ulogo),
+          grid.cell(colspan: 2, []),
           grid.cell(
             colspan: 2,
             [
@@ -233,6 +224,7 @@
               #utils.display-info-date(self)
             ]
           ),
+          grid.cell(colspan: 2, []),
         ),
       ),
       // HIRO brand gradient: embodied green → social pink (pink darkened for better logo visibility)
@@ -312,20 +304,11 @@
         inset: 0.5em,
         grid(
           columns: (4fr, 2fr),
-          rows: (6em, 6em, 4em, 4em),
+          rows: (4em, 1fr, auto, auto, 1fr),
           inset: .5em,
-          grid.cell([
-            #align(
-              left + top,
-              llogo,
-            )
-          ]),
-          grid.cell([
-            #align(
-              right + top,
-              ulogo,
-            )
-          ]),
+          grid.cell(align: left + horizon, llogo),
+          grid.cell(align: right + horizon, ulogo),
+          grid.cell(colspan: 2, []),
           grid.cell(
             colspan: 2,
             [
@@ -371,6 +354,7 @@
               #utils.display-info-date(self)
             ]
           ),
+          grid.cell(colspan: 2, []),
         ),
       ),
     )
